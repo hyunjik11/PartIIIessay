@@ -72,14 +72,13 @@ for epoch = epoch:maxepoch
     %%%%%%%%%%%%%% Compute Gradients %%%%%%%%%%%%%%%%%%%
     IO = repmat(2*(pred_out - rating),1,num_feat); % num_feat copies of 2*(pred_out - rating) concatenated
     %ie. is a N by num_feat matrix
-    Ix_m=IO.*w1_P1(aa_p,:) + 2*lambda*w1_M1(aa_m,:); %each row=gradient for Vj (j=1 to N)
-    Ix_p=IO.*w1_M1(aa_m,:) + 2*lambda*w1_P1(aa_p,:); %each row = gradient for Ui (i=1 to N)
+    Ix_m=IO.*w1_P1(aa_p,:) + 2*lambda*w1_M1(aa_m,:); %gradient for V
+    Ix_p=IO.*w1_M1(aa_m,:) + 2*lambda*w1_P1(aa_p,:); %gradient for U
 
     dw1_M1 = zeros(num_m,num_feat);
     dw1_P1 = zeros(num_p,num_feat);
     if batch~=numbatches
-            for ii=1:N   %initialise gradients ie. add up all the above for each user and movie
-                %cannot vectorise as vectorisation does things simultaneously, which is implausible
+            for ii=1:N   %cannot vectorise as vectorisation does things simultaneously, which is implausible
                 dw1_M1(aa_m(ii),:) =  dw1_M1(aa_m(ii),:) +  Ix_m(ii,:);
                 dw1_P1(aa_p(ii),:) =  dw1_P1(aa_p(ii),:) +  Ix_p(ii,:);
             end
@@ -90,11 +89,11 @@ for epoch = epoch:maxepoch
     end
     %%%% Update movie and user features %%%%%%%%%%%
 
-    w1_M1_inc = momentum*w1_M1_inc - epsilon*dw1_M1/N;
-    w1_M1 =  w1_M1 + w1_M1_inc;
+    w1_M1_inc = momentum*w1_M1_inc + epsilon*dw1_M1/N;
+    w1_M1 =  w1_M1 - w1_M1_inc;
 
-    w1_P1_inc = momentum*w1_P1_inc - epsilon*dw1_P1/N;
-    w1_P1 =  w1_P1 + w1_P1_inc;
+    w1_P1_inc = momentum*w1_P1_inc + epsilon*dw1_P1/N;
+    w1_P1 =  w1_P1 - w1_P1_inc;
   end 
 
   %%%%%%%%%%%%%% Compute Predictions after Parameter Updates %%%%%%%%%%%%%%%%%

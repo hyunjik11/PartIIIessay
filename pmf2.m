@@ -7,7 +7,7 @@ dg=@(x) exp(-x)/((1+exp(-x))^2);
 rand('state',0); 
 randn('state',0); 
 
-  %epsilon= Learning rate*1000
+  %epsilon= Learning rate
   % lambda=Regularization parameter(using same lambda for u and v)
 
   epoch=1;
@@ -57,16 +57,17 @@ for epoch = epoch:maxepoch
     %   lambda*( sum( (w1_M1(aa_m,:).^2 + w1_P1(aa_p,:).^2),2))); %value of minimising objective
 
     %%%%%%%%%%%%%% Compute Gradients %%%%%%%%%%%%%%%%%%%
-    grad_pred_out=arrayfun(dg,sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2)); %g'(U'V)
+    grad_pred_out=arrayfun(dg,sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2)); %g'(U'V) : N by 1 col vector
     IO = repmat(2*grad_pred_out.*(pred_out - rating),1,num_feat); % num_feat copies of 2g'(U'V)(U'V-R) concatenated
     %ie. is a N by num_feat matrix
-    Ix_m=IO.*w1_P1(aa_p,:) + 2*lambda*w1_M1(aa_m,:); %gradient for V
-    Ix_p=IO.*w1_M1(aa_m,:) + 2*lambda*w1_P1(aa_p,:); %gradient for U
+    Ix_m=IO.*w1_P1(aa_p,:) + 2*lambda*w1_M1(aa_m,:); %each row=gradient for Vj (j=1 to N)
+    Ix_p=IO.*w1_M1(aa_m,:) + 2*lambda*w1_P1(aa_p,:); %each row = gradient for Ui (i=1 to N)
 
     dw1_M1 = zeros(num_m,num_feat);
     dw1_P1 = zeros(num_p,num_feat);
     if batch~=numbatches
-            for ii=1:N   %cannot vectorise as vectorisation does things simultaneously, which is implausible
+            for ii=1:N   %initialise gradients ie. add up all the above for each user and movie
+                %cannot vectorise as vectorisation does things simultaneously, which is implausible
                 dw1_M1(aa_m(ii),:) =  dw1_M1(aa_m(ii),:) +  Ix_m(ii,:);
                 dw1_P1(aa_p(ii),:) =  dw1_P1(aa_p(ii),:) +  Ix_p(ii,:);
             end
@@ -77,11 +78,11 @@ for epoch = epoch:maxepoch
     end
     %%%% Update movie and user features %%%%%%%%%%%
 
-    w1_M1_inc = momentum*w1_M1_inc + epsilon*dw1_M1/N;
-    w1_M1 =  w1_M1 - w1_M1_inc;
+    w1_M1_inc = momentum*w1_M1_inc - epsilon*dw1_M1/N; 
+    w1_M1 =  w1_M1 + w1_M1_inc;
 
-    w1_P1_inc = momentum*w1_P1_inc + epsilon*dw1_P1/N;
-    w1_P1 =  w1_P1 - w1_P1_inc;
+    w1_P1_inc = momentum*w1_P1_inc - epsilon*dw1_P1/N;
+    w1_P1 =  w1_P1 + w1_P1_inc;
   end 
 
   %%%%%%%%%%%%%% Compute Predictions after Parameter Updates %%%%%%%%%%%%%%%%%
