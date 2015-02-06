@@ -12,7 +12,7 @@
 % not been tested to the degree that would be advisable in any important
 % application.  All use of these programs is entirely at the user's own risk.
 
-function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf(train_vec,probe_vec,epsilon,lambda,momentum, ...
+function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
     maxepoch,numbatches,num_m,num_p,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
 %this pmf is the most basic version, not applying g to (U^T)V and not
 %normalising the ratings
@@ -21,7 +21,7 @@ rand('state',0);
 randn('state',0); 
 
   %epsilon= Learning rate
-  % lambda=Regularization parameter(using same lambda for u and v)
+  % lambdau,lambdav=Regularization parameters
 
   epoch=1;
 
@@ -33,12 +33,12 @@ randn('state',0);
   % num_m=Number of movies 
   % num_p=Number of users 
   % num_feat=Rank 
-  if nargin<11
+  if nargin<12
     w1_M1     = 0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
     w1_P1     = 0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
     w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
     w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
-  elseif (10<nargin)&&(nargin<13)
+  elseif (11<nargin)&&(nargin<14)
     w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
     w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
   end
@@ -72,8 +72,8 @@ for epoch = epoch:maxepoch
     %%%%%%%%%%%%%% Compute Gradients %%%%%%%%%%%%%%%%%%%
     IO = repmat(2*(pred_out - rating),1,num_feat); % num_feat copies of 2*(pred_out - rating) concatenated
     %ie. is a N by num_feat matrix
-    Ix_m=IO.*w1_P1(aa_p,:) + 2*lambda*w1_M1(aa_m,:); %each row=gradient for Vj (j=1 to N)
-    Ix_p=IO.*w1_M1(aa_m,:) + 2*lambda*w1_P1(aa_p,:); %each row = gradient for Ui (i=1 to N)
+    Ix_m=IO.*w1_P1(aa_p,:) + 2*lambdav*w1_M1(aa_m,:); %each row=gradient for Vj (j=1 to N)
+    Ix_p=IO.*w1_M1(aa_m,:) + 2*lambdau*w1_P1(aa_p,:); %each row = gradient for Ui (i=1 to N)
 
     dw1_M1 = zeros(num_m,num_feat);
     dw1_P1 = zeros(num_p,num_feat);
