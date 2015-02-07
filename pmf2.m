@@ -7,7 +7,8 @@ dg=@(x) exp(-x)/((1+exp(-x))^2);
 rand('state',0); 
 randn('state',0); 
 
-  %epsilon= Learning rate
+  %epsilon= Learning rate x 100000 (note for batch gradient descent we use
+  %learning-rate/mini-batch-size as the step size.
   % lambdau,lambdav=Regularization parameter
   
   epoch=1;
@@ -76,10 +77,10 @@ for epoch = epoch:maxepoch
     end
     %%%% Update movie and user features %%%%%%%%%%%
 
-    w1_M1_inc = momentum*w1_M1_inc - epsilon*dw1_M1/N; 
+    w1_M1_inc = momentum*w1_M1_inc - epsilon*dw1_M1/N; %note division by N
     w1_M1 =  w1_M1 + w1_M1_inc;
 
-    w1_P1_inc = momentum*w1_P1_inc - epsilon*dw1_P1/N;
+    w1_P1_inc = momentum*w1_P1_inc - epsilon*dw1_P1/N; %note division by N
     w1_P1 =  w1_P1 + w1_P1_inc;
   end 
 
