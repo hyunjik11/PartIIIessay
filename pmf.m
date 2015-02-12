@@ -119,7 +119,7 @@ for epoch = epoch:maxepoch
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   if (rem(epoch,10))==0
-     save pmf_weights_and_errors w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
+     save pmf_weights_and_errors30 w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
   end
 
 end 
