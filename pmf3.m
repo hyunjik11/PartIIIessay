@@ -1,8 +1,9 @@
-function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf2(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
+function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf3(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
     maxepoch,numbatches,num_m,num_p,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
 %normalise ratings
 g=@(x) 1/(1+exp(-x));
 dg=@(x) exp(-x)/((1+exp(-x))^2);
+ginv=@(x) log(x/(1-x));
 
 rand('state',0); 
 randn('state',0); 
@@ -48,9 +49,10 @@ for epoch = epoch:maxepoch
 
     aa_p   = double(train_vec((batch-1)*N+1:min(batch*N,pairs_tr),1)); %N rows for user col
     aa_m   = double(train_vec((batch-1)*N+1:min(batch*N,pairs_tr),2)); %N rows for movie col
-    rating = double(train_vec((batch-1)*N+1:min(batch*N,pairs_tr),3)); %N rows of ratings
+    rawrating = double(train_vec((batch-1)*N+1:min(batch*N,pairs_tr),3)); %N rows of ratings
 
-    rating = (rating-1)/4; % rating scaled to between 0 and 1. 
+    rating = rawrating-mean_rating;
+    rating = arrayfun(g,rating); % rating-mean_rating scaled to between 0 and 1. 
 
     %%%%%%%%%%%%%% Compute Predictions %%%%%%%%%%%%%%%%%
     pred_out = arrayfun(g,sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2)); %g(U'V)
@@ -87,9 +89,8 @@ for epoch = epoch:maxepoch
   end 
 
   %%%%%%%%%%%%%% Compute Predictions after Parameter Updates %%%%%%%%%%%%%%%%%
-  pred_out = 1+4*arrayfun(g,sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2));
-  rating=1+4*rating;
-  err_train(epoch) = sqrt(sum((pred_out- rating).^2)/pairs_tr);
+  pred_out = mean_rating + arrayfun(ginv,sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2));
+  err_train(epoch) = sqrt(sum((pred_out- rawrating).^2)/pairs_tr);
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% Compute predictions on the validation set %%%%%%%%%%%%%%%%%%%%%% 
@@ -98,7 +99,7 @@ for epoch = epoch:maxepoch
   aa_m = double(probe_vec(:,2));
   rating = double(probe_vec(:,3));
 
-  pred_out = 1+4*arrayfun(g,sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2));
+  pred_out = mean_rating + sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2);
   ff = find(pred_out>5); pred_out(ff)=5; % Clip predictions 
   ff = find(pred_out<1); pred_out(ff)=1;
 
