@@ -1,0 +1,29 @@
+epoch    1 batch  991 Training RMSE 0.0238  Test RMSE 1.0046
+epoch    2 batch  991 Training RMSE 0.0227  Test RMSE 0.9632
+epoch    3 batch  991 Training RMSE 0.0219  Test RMSE 0.9472
+epoch    4 batch  991 Training RMSE 0.0213  Test RMSE 0.9399
+epoch    5 batch  991 Training RMSE 0.0208  Test RMSE 0.9375
+epoch    6 batch  991 Training RMSE 0.0206  Test RMSE 0.9377
+epoch    7 batch  991 Training RMSE 0.0203  Test RMSE 0.9392
+epoch    8 batch  991 Training RMSE 0.0201  Test RMSE 0.9413
+epoch    9 batch  991 Training RMSE 0.0199  Test RMSE 0.9438
+epoch   10 batch  991 Training RMSE 0.0196  Test RMSE 0.9465
+epoch   11 batch  991 Training RMSE 0.0197  Test RMSE 0.9491
+epoch   12 batch  991 Training RMSE 0.0196  Test RMSE 0.9518
+epoch   13 batch  991 Training RMSE 0.0194  Test RMSE 0.9544
+epoch   14 batch  991 Training RMSE 0.0194  Test RMSE 0.9570
+epoch   15 batch  991 Training RMSE 0.0194  Test RMSE 0.9597
+epoch   16 batch  991 Training RMSE 0.0194  Test RMSE 0.9617
+epoch   17 batch  991 Training RMSE 0.0192  Test RMSE 0.9640
+epoch   18 batch  991 Training RMSE 0.0191  Test RMSE 0.9661
+epoch   19 batch  991 Training RMSE 0.0192  Test RMSE 0.9683
+epoch   20 batch  991 Training RMSE 0.0192  Test RMSE 0.9702
+Elapsed time is 10506.442836 seconds.
+>> run
+epoch    1 batch  991 Training RMSE 0.0238  Test RMSE 1.0046
+epoch    2 batch  991 Training RMSE 0.0227  Test RMSE 0.9632
+epoch    3 batch  991 Training RMSE 0.0219  Test RMSE 0.9472
+epoch    4 batch  991 Training RMSE 0.0213  Test RMSE 0.9399
+epoch    5 batch  991 Training RMSE 0.0208  Test RMSE 0.9375
+Elapsed time is 2648.611770 seconds.
+

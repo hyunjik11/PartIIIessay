@@ -13,9 +13,10 @@
 % application.  All use of these programs is entirely at the user's own risk.
 
 function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
-    maxepoch,numbatches,num_m,num_p,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
+    maxepoch,save_epoch,numbatches,num_m,num_p,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
 %this pmf is the most basic version, not applying g to (U^T)V and not
 %normalising the ratings
+%save_epoch is the values of epoch at which we save the weights and errors
 
 rand('state',0); 
 randn('state',0); 
@@ -34,12 +35,12 @@ randn('state',0);
   % num_m=Number of movies 
   % num_p=Number of users 
   % num_feat=Rank 
-  if nargin<12
+  if nargin<13
     w1_M1     = 0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
     w1_P1     = 0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
     w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
     w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
-  elseif (11<nargin)&&(nargin<14)
+  elseif (12<nargin)&&(nargin<15)
     w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
     w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
   end
@@ -118,8 +119,8 @@ for epoch = epoch:maxepoch
               epoch, batch, err_train(epoch), err_valid(epoch));
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  if (rem(epoch,10))==0
-     save /alt/applic/user-maint/hjk42/pmf_weights_and_errors w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
+  if (rem(epoch,save_epoch))==0
+     save /alt/applic/user-maint/hjk42/pmf_weights_and_errors60 w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
   end
 
 end 

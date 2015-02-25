@@ -12,7 +12,7 @@
 % not been tested to the degree that would be advisable in any important
 % application.  All use of these programs is entirely at the user's own risk.
 
-function [w1_P1_sample,w1_M1_sample]=bayespmf(train_vec,probe_vec, ...
+function [w1_P1_sample,w1_M1_sample]=bayespmf(train_vec,probe_vec, R, ...
     maxepoch,num_m,num_p,num_feat,n_samples,w1_P1,w1_M1)
 %use trainM for train_vec
 %use w1_P1,w1_M1 from pmf (not pmf2)
@@ -42,7 +42,6 @@ randn('state',0);
   mu0_m = zeros(num_feat,1);
   %for all values above we use separate values for u and m, whereas in paper we use the same value
 
-  load all_data;
   mean_rating = mean(train_vec(:,3));
   ratings_test = double(probe_vec(:,3));
 
@@ -50,7 +49,6 @@ randn('state',0);
   pairs_pr = length(probe_vec);
 
   fprintf(1,'Initializing Bayesian PMF using MAP solution found by PMF \n'); 
-  R=makematrix(train_vec,num_p,num_m);
 
   w1_P1_sample = w1_P1; 
   w1_M1_sample = w1_M1; 
@@ -64,8 +62,6 @@ randn('state',0);
   R=R';
   probe_rat_all = pred(w1_M1_sample,w1_P1_sample,probe_vec,mean_rating);
   counter_prob=1; 
-
-
 
 for epoch = epoch:maxepoch
 
@@ -116,7 +112,8 @@ for epoch = epoch:maxepoch
        ff = find(R(:,mm)>0);
        MM = w1_P1_sample(ff,:);
        rr = R(ff,mm)-mean_rating;
-       mean_m = (alpha_m+beta*(MM'*MM))\(beta*MM'*rr+alpha_m*mu_m); %equation (12&13)
+       covar = inv((alpha_m+beta*(MM'*MM)));
+       mean_m = covar*(beta*MM'*rr+alpha_m*mu_m); %equation (12&13)
        lam = chol(covar); lam=lam'; 
        w1_M1_sample(mm,:) = lam*randn(num_feat,1)+mean_m;
      end
@@ -128,8 +125,9 @@ for epoch = epoch:maxepoch
        ff = find(R(:,uu)>0);
        MM = w1_M1_sample(ff,:);
        rr = R(ff,uu)-mean_rating;
-       mean_u = (alpha_u+beta*(MM'*MM))\(beta*MM'*rr+alpha_u*mu_u);
-       lam = chol(covar); lam=lam'; 
+       covar=inv((alpha_u+beta*(MM'*MM)));
+       mean_u = covar*(beta*MM'*rr+alpha_u*mu_u);
+       lam = chol(inv(alpha_u+beta*(MM'*MM))); lam=lam'; 
        w1_P1_sample(uu,:) = lam*randn(num_feat,1)+mean_u;
      end
    end 
@@ -149,6 +147,7 @@ for epoch = epoch:maxepoch
   fprintf(1, '\nEpoch %d \t Average Test RMSE %6.4f \n', epoch, err);
 
 end 
+save /alt/applic/user-maint/hjk42/bayespmf_weights_and_errors60_32 w1_M1_sample w1_P1_sample overall_err
 end
 
 

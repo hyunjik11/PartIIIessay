@@ -1,0 +1,39 @@
+Epoch 2          Average Test RMSE 0.9227
+user  =480189    Gibbs sampling 4
+Epoch 3          Average Test RMSE 0.9196
+user  =480189    Gibbs sampling 4
+Epoch 4          Average Test RMSE 0.9175
+user  =480189    Gibbs sampling 4
+Epoch 5          Average Test RMSE 0.9159
+user  =480189    Gibbs sampling 4
+Epoch 6          Average Test RMSE 0.9148
+user  =480189    Gibbs sampling 4
+Epoch 7          Average Test RMSE 0.9139
+user  =480189    Gibbs sampling 4
+Epoch 8          Average Test RMSE 0.9133
+user  =480189    Gibbs sampling 4
+Epoch 9          Average Test RMSE 0.9128
+user  =480189    Gibbs sampling 4
+Epoch 10         Average Test RMSE 0.9123
+user  =480189    Gibbs sampling 4
+Epoch 11         Average Test RMSE 0.9120
+user  =480189    Gibbs sampling 4
+Epoch 12         Average Test RMSE 0.9117
+user  =480189    Gibbs sampling 4
+Epoch 13         Average Test RMSE 0.9114
+user  =480189    Gibbs sampling 4
+Epoch 14         Average Test RMSE 0.9112
+user  =480189    Gibbs sampling 4
+Epoch 15         Average Test RMSE 0.9110
+user  =480189    Gibbs sampling 4
+Epoch 16         Average Test RMSE 0.9108
+user  =480189    Gibbs sampling 4
+Epoch 17         Average Test RMSE 0.9106
+user  =480189    Gibbs sampling 4
+Epoch 18         Average Test RMSE 0.9104
+user  =480189    Gibbs sampling 4
+Epoch 19         Average Test RMSE 0.9103
+user  =480189    Gibbs sampling 4
+Epoch 20         Average Test RMSE 0.9102
+Elapsed time is 29626.601816 seconds.
+
