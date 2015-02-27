@@ -133,7 +133,9 @@ for epoch = epoch:maxepoch
    end 
 
    probe_rat = pred(w1_M1_sample,w1_P1_sample,probe_vec,mean_rating);
-   probe_rat_all = (counter_prob*probe_rat_all + probe_rat)/(counter_prob+1);
+   probe_rat_all = (counter_prob*probe_rat_all + probe_rat)/(counter_prob+1); 
+   %we take a weighted mean of new prediciton and old prediction
+   %more weight given to older prediction as epoch increases
    counter_prob=counter_prob+1;
    
    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
