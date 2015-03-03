@@ -1,3 +1,20 @@
+if 1==1
+    load all_data
+    load pmf_weights_and_errors30
+    Psi=repmat(eye(30)/30,1,1,M);  
+    tic
+    vb(trainU,probeU,30,M,N,30,w1_P1,w1_M1,Psi);
+    toc
+end
+
+if 1==0
+    load all_data
+    tic
+    vb(trainU,probeU,30,M,N,30);
+    toc
+end
+
+
 if 1==0
 load all_data
 tic
@@ -5,7 +22,7 @@ pmf(trainM,probeM,50,0.01,0.001,0.9,5,5,991,17770,480189,60);
 toc
 end
 
-if 1==1
+if 1==0
 load all_data
 load R
 load pmf_weights_and_errors60
