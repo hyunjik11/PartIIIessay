@@ -1,4 +1,27 @@
+if 1==0
+    load all_data
+    tic
+    rawvb(trainU,probeU,30,30);
+    toc
+end
+
+if 1==0
+    load all_data
+    load pmf_weights_and_errors60
+    tic
+    vb(trainU,probeU,30,60,w1_P1,w1_M1);
+    toc
+end
+
 if 1==1
+    load all_data
+    load pmf_weights_and_errors30
+    tic
+    vb(trainU,probeU,30,30,w1_P1,w1_M1);
+    toc
+end
+
+if 1==0
     load all_data
     load pmf_weights_and_errors30
     Psi=repmat(eye(30)/30,1,1,M);  

@@ -1,7 +1,5 @@
-%Variational Bayes algorithm for collaborative filtering on Netflix Data
-%Need to write code so that I can continues to run the algorithm for more
-%epochs even after it has stopped.
-function [U,V,Psi,sigma,tau]=vb(train_vec,probe_vec,maxepoch,num_feat,...
+%vb trying to predict U,V st UV'=R instead of R-mean(R)
+function [U,V,Psi,sigma,tau]=rawvb(train_vec,probe_vec,maxepoch,num_feat,...
     U,V,Psi,sigma,tau)
 %note sigma=sigma^2, tau=tau^2
 %use trainU as train_vec
@@ -24,16 +22,16 @@ overall_err=zeros(maxepoch,1);
 
 %%%%%%%%%%%%%%%%%%initialisation%%%%%%%%%%%%%%%%%%%%
 if ~exist('U','var') 
-    U=0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
+    U=randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
 end
 if ~exist('V','var')
-    V=0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
+    V=randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
 end
 if ~exist('Psi','var')
     Psi=repmat(eye(num_feat)/num_feat,1,1,num_m);  
 end
 if ~exist('tau','var')
-    tau=1; %0.456
+    tau=0.456;
 end
 
 %normalise each col of V st each col has L2 norm 1/sqrt(num_feat)
@@ -66,7 +64,7 @@ for epoch=1:maxepoch
     for i=1:num_p
         j=train_vec((index(i)+1):index(i+1),2);%set of indices N(i) ie. movies watched by user i
         Phi=inv(diag(1./sigma)+sum(outerV(:,:,j),3)/tau);
-        mij=double(train_vec((index(i)+1):index(i+1),3)-mean_rating); %col vector of rating-mean_rating of user i for movies j
+        mij=double(train_vec((index(i)+1):index(i+1),3)); %col vector of rating of user i for movies j
         TU=sum(diag(mij)*V(j,:),1)*Phi'/tau; 
         outerU=Phi+TU'*TU; %container for Phi_j+U_j'*U_j
         sigma_new=sigma_new+TU'.^2+diag(Phi);
@@ -89,7 +87,7 @@ for epoch=1:maxepoch
     %%%%%%%%%%%%%%%%%%%%%%% end of vb algorithm  %%%%%%%%%%%%%%%%%%
     
     %%%%%%% Make predictions on the validation data %%%%%%%%%%%%%%
-    probe_rat = pred(V,U,probe_vec,mean_rating);
+    probe_rat = pred(V,U,probe_vec,0);
        
     temp = (ratings_test - probe_rat).^2;
     err = sqrt(sum(temp)/pairs_pr);
@@ -99,8 +97,5 @@ for epoch=1:maxepoch
     fprintf(1, '\nEpoch %d \t Average Test RMSE %6.4f \n', epoch, err);
     
 end
-save /alt/applic/user-maint/hjk42/vb_random30 U V overall_err Psi sigma tau
+save /alt/applic/user-maint/hjk42/rawvb_random30 U V overall_err Psi sigma tau
 end
-
-
-

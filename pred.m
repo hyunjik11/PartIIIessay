@@ -1,4 +1,4 @@
-function [pred_out] = pred(w1_M1_sample,w1_P1_sample,probe_vec,mean_rating);
+function [pred_out] = pred(w1_M1_sample,w1_P1_sample,probe_vec,mean_rating)
 
 %%% Make predicitions on the validation data
 
