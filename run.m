@@ -1,3 +1,57 @@
+if 1==0 %otter
+    load all_data
+    load rawvb_random30
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err]=rawbayespmf(trainM,probeM,R,30,M,N,30,32,U,V);
+    toc
+    save /alt/applic/user-maint/hjk42/rawbayespmf_vb_init30 w1_P1_sample w1_M1_sample overall_err
+end
+
+if 1==1 %stadium 
+    load all_data
+    tic
+    [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=rawpmf(trainM,probeM,50,0.01,0.001,0.9,6,60);
+    toc
+    save /alt/applic/user-maint/hjk42/rawpmf60 w1_P1 w1_M1 w1_P1_inc w1_M1_inc err_valid
+end
+
+if 1==0 %hashi
+    load all_data
+    load rawpmf_weights_and_errors30
+    tic
+    [U,V,Psi,sigma,tau,overall_err]=rawvb(trainU,probeU,30,30,w1_P1,w1_M1);
+    toc
+    save /alt/applic/user-maint/hjk42/rawvb_pmf_init30 U V Psi sigma tau overall_err
+end
+
+if 1==0 
+load all_data
+load rawvb_random30
+tic
+[w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=rawpmf(trainM,probeM,50,0.01,0.001,0.9,10,30,U,V);
+toc
+save /alt/applic/user-maint/hjk42/rawpmf_vb_init30 w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
+end
+
+if 1==0 %pentopia
+    load all_data
+    tic
+    [U,V,Psi,sigma,tau,overall_err]=rawvb(trainU,probeU,30,60);
+    toc
+    save /alt/applic/user-maint/hjk42/rawvb_random60 U V overall_err Psi sigma tau
+end
+
+if 1==0 %cave
+    load all_data
+    load rawpmf_weights_and_errors30
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err]=rawbayespmf(trainM,probeM,R,30,M,N,30,32,w1_P1,w1_M1);
+    toc
+    save /alt/applic/user-maint/hjk42/rawbayespmf_rawpmf_init30 w1_P1_sample w1_M1_sample overall_err
+end
+
 if 1==0
     load all_data
     tic
@@ -9,15 +63,17 @@ if 1==0
     load all_data
     load pmf_weights_and_errors60
     tic
-    vb(trainU,probeU,30,60,w1_P1,w1_M1);
+    vb(trainU,probeU,30,60,w1_P1,w1_M1); %this won't work well because w1_P1,w1_M1 predict R-mean_rating
+    %whereas vb tries to predict R
     toc
 end
 
-if 1==1
+if 1==0
     load all_data
     load pmf_weights_and_errors30
     tic
-    vb(trainU,probeU,30,30,w1_P1,w1_M1);
+    vb(trainU,probeU,30,30,w1_P1,w1_M1); %this won't work well because w1_P1,w1_M1 predict R-mean_rating
+    %whereas vb tries to predict R
     toc
 end
 
@@ -41,17 +97,19 @@ end
 if 1==0
 load all_data
 tic
-pmf(trainM,probeM,50,0.01,0.001,0.9,5,5,991,17770,480189,60);
+[w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=rawpmf(trainM,probeM,50,0.01,0.001,0.9,8,8,991,17770,480189,30);
 toc
+save /alt/applic/user-maint/hjk42/rawpmf_weights_and_errors30 w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
 end
 
 if 1==0
 load all_data
 load R
-load pmf_weights_and_errors60
+load pmf_weights_and_errors30
 tic
-bayespmf(trainM,probeM,R,30,M,N,60,32,w1_P1,w1_M1);
+[w1_P1_sample,w1_M1_sample,overall_err]=rawbayespmf(trainM,probeM,R,30,M,N,30,32,w1_P1,w1_M1);
 toc
+save /alt/applic/user-maint/hjk42/rawbayespmf_weights_and_errors30_32 w1_M1_sample w1_P1_sample overall_err
 end
 
 if 0==1

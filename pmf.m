@@ -99,9 +99,6 @@ for epoch = epoch:maxepoch
     w1_P1 =  w1_P1 + w1_P1_inc;
   end 
 
-  %%%%%%%%%%%%%% Compute Predictions after Parameter Updates %%%%%%%%%%%%%%%%%
-  pred_out = sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2);
-  err_train(epoch) = sqrt(sum((pred_out- rating).^2)/pairs_tr);
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% Compute predictions on the validation set %%%%%%%%%%%%%%%%%%%%%% 
@@ -115,8 +112,8 @@ for epoch = epoch:maxepoch
   ff = find(pred_out<1); pred_out(ff)=1;
 
   err_valid(epoch) = sqrt(sum((pred_out- rating).^2)/pairs_pr);
-  fprintf(1, 'epoch %4i batch %4i Training RMSE %6.4f  Test RMSE %6.4f  \n', ...
-              epoch, batch, err_train(epoch), err_valid(epoch));
+  fprintf(1, 'epoch %4i batch %4i Test RMSE %6.4f  \n', ...
+              epoch, batch, err_valid(epoch));
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   if (rem(epoch,save_epoch))==0

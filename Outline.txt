@@ -1,0 +1,17 @@
+Title: Collaborative Filtering Techniques for Recommender Systems
+Subtitle: Matrix Factorisation Approaches to Collaborative Filtering
+
+ABSTACT
+-use abstract from essay proposal
+
+1. INTRODUCTION (see 
+-Introduce notation, notion of collaborative filtering as opposed to content based filtering, and how this is a step towards automation (reducing complexity of problem)
+-go through the hand-written summary sheet, giving examples of each type of approach (eg. PLSA,Unifying user-based and item-based CF etc)
+-aim of paper - to introduce the Bayesian alogrithms, combine these two methods
+
+2. PMF and BayesPMF
+
+3. Variational Bayes
+
+4. Experiments and results
+

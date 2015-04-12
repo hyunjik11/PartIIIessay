@@ -96,7 +96,7 @@ for epoch=1:maxepoch
 
     overall_err(epoch)=err;
 
-    fprintf(1, '\nEpoch %d \t Average Test RMSE %6.4f \n', epoch, err);
+    fprintf(1, 'Epoch %d \t Average Test RMSE %6.4f \n', epoch, err);
     
 end
 save /alt/applic/user-maint/hjk42/vb_random30 U V overall_err Psi sigma tau

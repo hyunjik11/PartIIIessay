@@ -1,5 +1,5 @@
 %vb trying to predict U,V st UV'=R instead of R-mean(R)
-function [U,V,Psi,sigma,tau]=rawvb(train_vec,probe_vec,maxepoch,num_feat,...
+function [U,V,Psi,sigma,tau,overall_err]=rawvb(train_vec,probe_vec,maxepoch,num_feat,...
     U,V,Psi,sigma,tau)
 %note sigma=sigma^2, tau=tau^2
 %use trainU as train_vec
@@ -94,8 +94,8 @@ for epoch=1:maxepoch
 
     overall_err(epoch)=err;
 
-    fprintf(1, '\nEpoch %d \t Average Test RMSE %6.4f \n', epoch, err);
+    fprintf(1, 'Epoch %d \t Average Test RMSE %6.4f \n', epoch, err);
     
 end
-save /alt/applic/user-maint/hjk42/rawvb_random30 U V overall_err Psi sigma tau
+%save /alt/applic/user-maint/hjk42/rawvb_random30 U V overall_err Psi sigma tau
 end
