@@ -7,11 +7,15 @@ ABSTACT
 1. INTRODUCTION (see 
 -Introduce notation, notion of collaborative filtering as opposed to content based filtering, and how this is a step towards automation (reducing complexity of problem)
 -go through the hand-written summary sheet, giving examples of each type of approach (eg. PLSA,Unifying user-based and item-based CF etc)
--aim of paper - to introduce the Bayesian alogrithms, combine these two methods
+-aim of paper - to introduce the Bayesian alogrithms, combine these methods for better performance
 
-2. PMF and BayesPMF
+2. PMF
 
-3. Variational Bayes
+3. BayesPMF
 
-4. Experiments and results
+4. Variational Bayes
+
+5. Experiments and results
+
+6. Other models
 
