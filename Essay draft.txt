@@ -3,7 +3,7 @@ ABSTRACT
 Collaborative filtering defines a branch of techniques for tackling the following supervised learning problem: 
 making predictions(filtering) about the preferences of a user, based on information regarding the preference of many users (collaborating).
 Having obtained such predictions, it is then a simple task to build a recommender system for users; we simply recommend the items with highest preference by a given user.
-In this paper, we first introduce the three most successful Bayesian algorithms for collaborative filtering on the Netflix dataset. These are Probabilistic Matrix Factorization (PMF), its variant Bayesian PMF(BPMF), and Variational Bayes (VB). We describe their mechanisms in full, fleshing out the missing details in the original papers. We then give results of authentic numerical experiments for direct comparison of their empirical performances. Moreover we investigate their performances on a small subset of the data for users with few movie ratings, where prediction is known to be most difficult. Finally, we show results of experiments using combinations of these algorithms for improved performance on the Netflix data.
+In this paper, we first introduce the three most successful Bayesian algorithms for collaborative filtering on the Netflix dataset. These are Probabilistic Matrix Factorization (PMF), its variant Bayesian PMF(BPMF), and Variational Bayes (VB). We describe their mechanisms in full, fleshing out the missing details in the original papers. We then give results of authentic numerical experiments for direct comparison of their empirical performances, as well as speed. Moreover we investigate their performances on a small subset of the data for users with few movie ratings, where prediction is known to be most difficult. Finally, we show results of experiments using combinations of these algorithms for improved performance on the Netflix data.
 
 Comments: Would be nice to include some results in the abstract.
 
@@ -11,7 +11,7 @@ INTRODUCTION
 
 Prediction of user ratings applies to various contexts, such as for online videos, books and other commercial products. In this paper, we will focus on movie ratings by users provided by the Netflix dataset, the largest publicly available movie rating data. This was publicised during the Netflix Prize in 2009, a competition organised by Netflix for the most accurate recommender system that predicts user ratings, given the user rating history [2 in VB]. Netflix provided just over 100,000,000 ratings from around 480,000 randomly chosen users and around 18,000 movies which they have rated, collected between 1998 and 2005. The task is to predict a prespecified set of 3 million unobserved ratings (test set) from these users over these movies. The metric for error is the root mean-squared error (RMSE) over the test set. We use Cinematch, Neflix's own system, with RMSE 0.9474 as a baseline.
 
-Let us introduce some notation and terminology to begin with. Let there be N users with M movies. Each user u_i rates movie m_j with rating R_ij. Hence the rating matrix R is incomplete. In fact, it is incredibly sparse as most users will only have rated a small fraction of the total set of movies. Collaborative filtering aims to fill R by only using the already filled entries (observed ratings) of R. The underlying assumption for this matrix completion that if user A has a similar rating as user B on a movie, then A is more likely to share B¡¯s rating on a different movie than another user selected at random. 
+Let us introduce some notation and terminology to begin with. Let there be N users with M movies. Each user u_i rates movie m_j with rating R_ij /in {1,...,K}. Hence the rating matrix R is incomplete. In fact, it is incredibly sparse as most users will only have rated a small fraction of the total set of movies. Collaborative filtering aims to fill R by only using the already filled entries (observed ratings) of R. The underlying assumption for this matrix completion that if user A has a similar rating as user B on a movie, then A is more likely to share B¡¯s rating on a different movie than another user selected at random. 
 
 This approach is contrary to content-based filtering, which predicts user ratings based on attributes of movies such as genre,number of viewings,director,cast etc. There are several drawbacks of content-based filtering, such as limited content analysis and over-specialisation, but the main difficulty in applying content-based filtering to a dataset as large as the Netflix data is that it requires building user profiles; this highly memory intensive task is unsuitable for large data sets. Also it is not so clear as to how detailed the profiles should be made and how the weights should be given to different attributes of films. This is why the vast majority of approaches to the Netflix problem are based on collaborative filtering, which deals with a problem of reduced complexity, and thus can be seen as a step towards automation.
 
@@ -23,8 +23,58 @@ The breakthrough for scalable model-based approaches was the clever idea of appl
 
 From a mathematical point of view, we note that if R=UV', then rank(R)<=D. Hence finding U and V is equivalent to finding the best rank D approximation to R, in the squared error sense. It is a standard result in linear algebra that this can easily be obtained from the Singular Value Decomposition (SVD) of R, commonly referred to as the Matrix Approximation Lemma [The approximation of one matrix by another of lower rank].
 
-Here: Result for SVD in latex.
+Here: Equations for SVD in latex.
 
-However, the problem with our ratings matrix is that it is incomplete - some entries are missing. The above result holds for R complete. This seemingly small modification results in a non-convex optimisation problem, and an approach different to standard SVD computation needs to be employed. Nonetheless there do exist SVD extensions which deal successfully with this problem, such as the use of the EM algorithm where the unobserved entries are modelled as latent variables [10 of VB], Gradient Boosting with successive rank 1 updates to U and V, and many other variants. These approaches have shown to be successful on the Netflix data. However, these procedures have also shown to overfit easily due to the extreme sparsity of the rating matrix, and require careful tuning of parameters such as the number of dimensions D for proper regularisation.
+However, the problem with our rating matrix is that it is incomplete - some entries are missing. The above result holds for R complete. This seemingly small modification results in a non-convex optimisation problem, and an approach different to standard SVD computation needs to be employed. Nonetheless there do exist SVD extensions which deal successfully with this problem, such as the use of the EM algorithm where the unobserved entries are modelled as latent variables [10 of VB], Gradient Boosting with successive rank 1 updates to U and V, and many other variants. These approaches have shown to be successful on the Netflix data. However, these procedures have also shown to overfit easily due to the extreme sparsity of the rating matrix, and require careful tuning of parameters such as the number of dimensions D for proper regularisation.
 
-This paper describes Bayesian models which are less prone to problems of overfitting, as well as being superior in performance to the aforementioned SVD algorithms. In section 2 we introduce the Probabilistic Matrix Factorization(PMF) algorithm, which uses MAP estimation on the simplest Bayesian model with a independent Gaussian distributions on each entry of R along with independent Gaussian priors on the rows of U and V. In section 3 we give an extension of PMF called Bayesian PMF, which uses Monte Carlo estimation on a hierarchial Bayesian model. In section 4, we describe the Variational Bayesian approach (VB) which replaces MAP estimates of U,V in PMF with their expectations, and uses variational inference to approximate these values. In section 5, we compare their empirical performances: their RMSE on the test set, the RMSE for ratings of infrequent users with less than 10 ratings, and the RMSE for different combinations of these algorithms. Wherever possible we evaluate the results and offer possible explanations to provide insight for each algorithm. Finally in section 6, we discuss other models which deserve interest, such as those which use Restricted Boltzmann Machines and Gaussian Processes. We also provide further scope of research in the domain of large-scale collaborative filtering.
+This paper describes Bayesian models which are less prone to problems of overfitting, as well as being superior in performance to the aforementioned SVD algorithms. In section 2 we introduce the Probabilistic Matrix Factorization(PMF) algorithm, which uses MAP estimation on the simplest Bayesian model with a independent Gaussian distributions on each entry of R along with independent Gaussian priors on the rows of U and V. In section 3 we give an extension of PMF called Bayesian PMF, which uses Monte Carlo estimation on a hierarchial Bayesian model. In section 4, we describe the Variational Bayesian approach (VB) which replaces MAP estimates of U,V in PMF with their expectations, and uses variational inference to approximate these values. In section 5, we compare their empirical performances: their RMSE on the test set, the RMSE for ratings of infrequent users with less than 10 ratings, and the RMSE for different combinations of these algorithms. We also cover with caution the running times for these algorithms. Wherever possible we evaluate the results and offer possible explanations to provide insight for each algorithm. Finally in section 6, we discuss other models which deserve interest, such as those which use Restricted Boltzmann Machines and Gaussian Processes. We also provide further scope of research in the domain of large-scale collaborative filtering.
+
+PROBABILISTIC MATRIX FACTORIZATION (PMF)
+
+We use the notation in the Introduction, along with U_i for the ith row of U and V_j for the jth row of V. Since we wish U_i V_j' to estimate R_ij, the most natural Bayesian model would begin with the following conditional distribution on each R_ij:
+R_ij|U_i,V_j ~ N(U_i V_j',sigma^2)
+Also for simplicity in calculation, we assume that R_ij, conditioned on the values of U and V, are independent random variables. Hence:
+
+Equation (1) , but use (ij) for the bounds of the product instead of using the indicators I_ij.
+
+where (ij) ranges over all user/movie indices in the training set.
+The paper does not mention that although R_ij is in fact a discrete, integer-valued RV, it is modelled by a continuous distribution. This model is, however, justified as there is no requirement that the prediction must also be integer-valued. It is in fact beneficial to model R_ij as a continuous RV, since then non-integer part of the prediction would be helpful in distinguishing the top recommendations from the good ones.
+
+Moreover we set U and V to be random variables, on which we put Gaussian priors with zero mean and spherical covariance(a multiple of the identity matrix):
+
+Equation (2)
+
+These priors can be interpreted as a natural regularisation induced by our Bayesian model, which can help reduce overfitting. We will see below how the values of sigma can be interpreted as the degree of regularisation. Here one could also raise the issue whether it is sensible to use a spherical covariance as opposed to, say, a diagonal covariance. The paper confirms experimentally that emprically this generalisation does not give much of an improvement, hence the paper adheres to a spherical variance for the sake of simplicity. 
+
+By Bayes' Theorem the log posterior of U and V can be calculated as:
+
+Equation (3)
+
+where C is some constant independent of the parameters. Maximising the log-posterior over U and V is then equivalent to minimising the sum of squared errors with quadratic regularisation terms:
+
+Equation (4)
+
+where lambdaU= , .... . . Although unmentioned in the paper, this form of quadratic regularisation, as in ridge regression, is intuitively the type of regularisation we would want to avoid overfitting; with careful optimisation, U and V with large entries may have low error on observed entries of R. Then, however, predictions for unobserved entries can become extreme, and due to the extreme sparsity of R, this will become a major issue when trying to predict many ratings, as is the case for the Netflix Prize. So it is sensible to have U and V small by penalising their L2 norms. This demonstrates that the use of a Gaussian prior on U and V, and using a maximum a posteriori (MAP) estimate is advantageous for three reasons: First, it automatically provides sensible and intuitive regularisation. Secondly it adds interpretive value to the parameter sigma (degree of regularisation). And thirdly, the parameters whose values we need to fix is reduced from three (sigmas) to two (lambdas), making easier the tuning parameter selection and hence effective regularisation.
+Now the objective in (4) is minimised wrt U and V by gradient descent, hence U,V converge to a stationary point. 
+
+Equation on top of page 6, but use epsilon instead of lambda
+
+where the epsilon is the learning rate and p is the momentum term, which is used to avoid slow convergence due to heavy zig-zagging behaviour. Since del(E) is continuous, we may guarantee convergence to a local minimum by adjusting epsilon at each step of the iteration such that the Wolfe conditions are satisfied. However this is computationally demanding due to the large number of variables (N rows in U), so we use a constant learning rate. 
+
+-Algorithm pseudocode.
+
+-mention modification such as applying transformation to UV' and how this links to Gaussian Process approach in section 6.
+
+-mention adaptive priors method.
+
+-how the parameters were chosen for fixed prior PMF.
+
+-brief statement of constrained PMF model.
+
+-include figure 1 in paper - graphical model
+
+
+
+
+
+
