@@ -1,0 +1,12 @@
+epoch    1 batch  991 Average Test RMSE 1.0400
+epoch    2 batch  991 Average Test RMSE 0.9784
+epoch    3 batch  991 Average Test RMSE 0.9584
+epoch    4 batch  991 Average Test RMSE 0.9490
+epoch    5 batch  991 Average Test RMSE 0.9439
+epoch    6 batch  991 Average Test RMSE 0.9419
+epoch    7 batch  991 Average Test RMSE 0.9409
+epoch    8 batch  991 Average Test RMSE 0.9407
+epoch    9 batch  991 Average Test RMSE 0.9414
+epoch   10 batch  991 Average Test RMSE 0.9427
+Elapsed time is 2745.572115 seconds.
+

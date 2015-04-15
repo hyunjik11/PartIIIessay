@@ -12,8 +12,8 @@
 % not been tested to the degree that would be advisable in any important
 % application.  All use of these programs is entirely at the user's own risk.
 
-function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
-    maxepoch,save_epoch,numbatches,num_m,num_p,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
+function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=pmf(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
+    maxepoch,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
 %this pmf is the most basic version, not applying g to (U^T)V and not
 %normalising the ratings
 %save_epoch is the values of epoch at which we save the weights and errors
@@ -31,19 +31,25 @@ randn('state',0);
  
   pairs_tr = length(train_vec); % number of training data 
   pairs_pr = length(probe_vec); % number of validation data 
+  
+  num_m=17770; 
+  num_p=480189;
+  numbatches=991;
 
-  % num_m=Number of movies 
-  % num_p=Number of users 
-  % num_feat=Rank 
-  if nargin<13
-    w1_M1     = 0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
-    w1_P1     = 0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
-    w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
-    w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
-  elseif (12<nargin)&&(nargin<15)
-    w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
-    w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
-  end
+    if ~exist('w1_M1','var') 
+        w1_M1     = 0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
+    end
+
+    if ~exist('w1_P1','var')
+        w1_P1     = 0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
+    end
+
+    if ~exist('w1_M1_inc','var')
+        w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
+    end
+    if ~exist('w1_P1_inc','var')
+        w1_P1_inc = zeros(num_p, num_feat); %increments to parameters for GD
+    end
     
 err_train=zeros(maxepoch,1);
 err_valid=zeros(maxepoch,1);
@@ -103,22 +109,12 @@ for epoch = epoch:maxepoch
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%% Compute predictions on the validation set %%%%%%%%%%%%%%%%%%%%%% 
   
-  aa_p = double(probe_vec(:,1));
-  aa_m = double(probe_vec(:,2));
-  rating = double(probe_vec(:,3));
-
-  pred_out = sum(w1_M1(aa_m,:).*w1_P1(aa_p,:),2) + mean_rating;
-  ff = find(pred_out>5); pred_out(ff)=5; % Clip predictions 
-  ff = find(pred_out<1); pred_out(ff)=1;
-
-  err_valid(epoch) = sqrt(sum((pred_out- rating).^2)/pairs_pr);
+  err_valid(epoch) = probe_err(w1_P1,w1_M1,probe_vec,mean_rating);
+  
   fprintf(1, 'epoch %4i batch %4i Test RMSE %6.4f  \n', ...
               epoch, batch, err_valid(epoch));
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  if (rem(epoch,save_epoch))==0
-     save /alt/applic/user-maint/hjk42/pmf_weights_and_errors60 w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
-  end
 
 end 
 end

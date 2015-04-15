@@ -1,0 +1,11 @@
+RMSE for users with fewer than 10 ratings
+
+RawVB 	30D:	1.0972
+RawPMF 	30D:	1.1729
+PMF	30D:	1.1180
+BayesPMF30D:	1.1886
+RawPMF	60D:	1.2020
+PMF	60D:	1.1307
+BayesPMF60D:	1.1912
+
+

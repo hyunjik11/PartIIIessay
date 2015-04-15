@@ -13,7 +13,7 @@
 % application.  All use of these programs is entirely at the user's own risk.
 
 function [w1_P1_sample,w1_M1_sample,overall_err]=bayespmf(train_vec,probe_vec, R, ...
-    maxepoch,num_feat,n_samples,w1_P1,w1_M1)
+    maxepoch,num_m,num_p,num_feat,n_samples,w1_P1,w1_M1)
 %use trainM for train_vec
 %use w1_P1,w1_M1 from pmf (not pmf2)
 rand('state',0);
@@ -23,8 +23,8 @@ randn('state',0);
 
   iter=0; 
   
-  num_m=17770; 
-  num_p=480189;
+  num_m=
+  num_p=
 
   % Initialize hierarchical priors 
   beta=2; % observation noise (precision) (=alpha in paper)
