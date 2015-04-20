@@ -12,8 +12,8 @@
 % not been tested to the degree that would be advisable in any important
 % application.  All use of these programs is entirely at the user's own risk.
 
-function [w1_P1_sample,w1_M1_sample,overall_err]=bayespmf(train_vec,probe_vec, R, ...
-    maxepoch,num_feat,n_samples,w1_P1,w1_M1)
+function [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m]=bayespmf(train_vec,probe_vec, R, ...
+    maxepoch,num_feat,n_samples,w1_P1,w1_M1,mu_u,mu_m,alpha_u,alpha_m)
 %use trainM for train_vec
 %use w1_P1,w1_M1 from pmf (not pmf2)
 rand('state',0);
@@ -28,10 +28,19 @@ randn('state',0);
 
   % Initialize hierarchical priors 
   beta=2; % observation noise (precision) (=alpha in paper)
-  mu_u = zeros(num_feat,1);
-  mu_m = zeros(num_feat,1);
-  alpha_u = eye(num_feat); %capital lambda_u in paper
-  alpha_m = eye(num_feat);  %capital lambda_m in paper
+  
+  if ~exist('mu_u','var') 
+    mu_u = zeros(num_feat,1);
+  end
+  if ~exist('mu_u','var')
+    mu_m = zeros(num_feat,1);
+  end
+  if ~exist('alpha_u','var')
+    alpha_u = eye(num_feat); %capital lambda_u in paper
+  end
+  if ~exist('alpha_m','var')
+    alpha_m = eye(num_feat);  %capital lambda_m in paper
+  end
 
   % parameters of Inv-Whishart distribution (see paper for details) 
   WI_u = eye(num_feat); %W_0 in paper 

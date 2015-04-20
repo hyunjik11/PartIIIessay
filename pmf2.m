@@ -1,5 +1,5 @@
-function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc]=pmf2(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
-    maxepoch,numbatches,num_m,num_p,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
+function [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=pmf2(train_vec,probe_vec,epsilon,lambdau,lambdav,momentum, ...
+    maxepoch,num_feat,w1_P1,w1_M1,w1_P1_inc,w1_M1_inc)
 %normalise ratings
 g=@(x) 1/(1+exp(-x));
 dg=@(x) exp(-x)/((1+exp(-x))^2);
@@ -18,18 +18,24 @@ randn('state',0);
   
   mean_rating = mean(train_vec(:,3)); 
 
-  % num_m=Number of movies 
-  % num_p=Number of users 
-  % num_feat=Rank 
-  if nargin<12
-    w1_M1     = 0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
-    w1_P1     = 0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
-    w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
-    w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
-  elseif (11<nargin)&&(nargin<14)
-    w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
-    w1_P1_inc = zeros(num_p, num_feat); %increments to paramenters for GD
-  end
+  num_m=17770; 
+  num_p=480189;
+  numbatches=991;
+
+    if ~exist('w1_M1','var') 
+        w1_M1     = 0.1*randn(num_m, num_feat); % Movie feature vectors (each row corresponds to a movie)
+    end
+
+    if ~exist('w1_P1','var')
+        w1_P1     = 0.1*randn(num_p, num_feat); % User feature vecators (each row corresponds to a user)
+    end
+
+    if ~exist('w1_M1_inc','var')
+        w1_M1_inc = zeros(num_m, num_feat); %increments to parameters for GD
+    end
+    if ~exist('w1_P1_inc','var')
+        w1_P1_inc = zeros(num_p, num_feat); %increments to parameters for GD
+    end
     
 err_train=zeros(maxepoch,1);
 err_valid=zeros(maxepoch,1);
@@ -106,10 +112,6 @@ for epoch = epoch:maxepoch
   fprintf(1, 'epoch %4i batch %4i Training RMSE %6.4f  Test RMSE %6.4f  \n', ...
               epoch, batch, err_train(epoch), err_valid(epoch));
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  if (rem(epoch,10))==0
-     save /alt/applic/user-maint/hjk42/pmf_weights_and_errors2.10.2 w1_M1 w1_P1 w1_M1_inc w1_P1_inc err_valid
-  end
 
 end 
 end
