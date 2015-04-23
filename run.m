@@ -1,7 +1,105 @@
-%%%%%%%%%% REMEMBER TO SAVE IF BETTER THAN 32 !!!!%%%%%%%%%%%%
+%%%%%%%%%% REMEMBER TO SAVE!!!!%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%hashi,cave,tangram ,tomtom,stadium, otter
+if 1==1 %pentopia
+    load all_data
+    tic
+    [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=pmf(trainU,probeU,50,0.01,0.001,0.9, ...
+    30,60);
+    toc
+end
 
+if 1==0 %oval
+    load all_data
+    tic
+    [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=rawpmf(trainU,probeU,50,0.01,0.001,0.9,30,60);
+    toc
+    %save /alt/applic/user-maint/hjk42/rawpmf60errors err_valid
+end
+
+if 1==0 %otter 
+load all_data
+tic
+[U,V,Psi,sigma,tau,overall_err]=rawvb(trainU,probeU,30,60);
+toc
+%save /alt/applic/user-maint/hjk42/rawvb60errors err_valid
+end
+
+if 1==0 %cave
+    load all_data
+    load rawvb_random60
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=rawbayespmf(trainM,probeU, R, ...
+    30,60,8,U,V);
+    toc
+    %save /alt/applic/user-maint/hjk42/rawbayespmf_vb_init60_8_30epochs w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m probe_rat_all counter_prob
+end
+
+if 1==0 %tomtom
+    load all_data
+    load rawpmf60
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=rawbayespmf(trainM,probeU, R, ...
+    30,60,8,w1_P1,w1_M1);
+    toc
+    %save /alt/applic/user-maint/hjk42/rawbayespmf_rawpmf_init60_8_30epochs w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m probe_rat_all counter_prob
+end
+
+if 1==0 %tangram
+    load all_data
+    load pmf_weights_and_errors60
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=bayespmf(trainM,probeU, R, ...
+    30,60,8,w1_P1,w1_M1);
+    toc
+    %save /alt/applic/user-maint/hjk42/bayespmf60_8_30epochs w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m probe_rat_all counter_prob
+end
+
+if 1==0 %pentopia
+    load all_data
+    load rawvb_random30
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=rawbayespmf(trainM,probeU, R, ...
+    30,30,8,U,V);
+    toc
+    %save /alt/applic/user-maint/hjk42/rawbayespmf_vb_init30_8 w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m probe_rat_all counter_prob
+end
+
+if 1==0 %stadium
+    load all_data
+    load rawpmf_weights_and_errors30
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=rawbayespmf(trainM,probeU, R, ...
+    30,30,8,w1_P1,w1_M1);
+    toc
+    %save /alt/applic/user-maint/hjk42/rawbayespmf_rawpmf_init30_8 w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m probe_rat_all counter_prob
+end
+
+if 1==0 %hashi
+    load all_data
+    load pmf_weights_and_errors30
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=bayespmf(trainM,probeU, R, ...
+    30,30,8,w1_P1,w1_M1);
+    toc
+    %save /alt/applic/user-maint/hjk42/bayespmf_weights_and_errors30_8 w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m probe_rat_all counter_prob
+end
+    
+
+if 1==0
+    load all_data
+    load pmf_weights_and_errors30
+    load R
+    tic
+    [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m]=bayespmf(trainM,probeM, R,30,30,4,w1_P1,w1_M1);
+    toc
+    save /alt/applic/user-maint/hjk42/bayespmf_weights_and_errors30_4 w1_P1_sample w1_M1_sample overall_err
+end
 
 if 1==0 
     load all_data
@@ -24,7 +122,7 @@ if 1==0
     % save /alt/applic/user-maint/hjk42/rawbayespmf_rawpmf_init60_8 w1_P1_sample w1_M1_sample overall_err mu_u mu_m alpha_u alpha_m
 end
 
-if 1==1 %hashi
+if 1==0
     load all_data
     load rawbayespmf_vb_init60_8
     load R

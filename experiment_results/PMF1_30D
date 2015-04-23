@@ -6,4 +6,36 @@
     0.9319
     0.9315
 
-time elapsed=
+
+epoch    1 batch  991 Test RMSE 1.0068
+epoch    2 batch  991 Test RMSE 0.9646
+epoch    3 batch  991 Test RMSE 0.9473
+epoch    4 batch  991 Test RMSE 0.9385
+epoch    5 batch  991 Test RMSE 0.9340
+epoch    6 batch  991 Test RMSE 0.9317
+epoch    7 batch  991 Test RMSE 0.9314
+epoch    8 batch  991 Test RMSE 0.9315
+epoch    9 batch  991 Test RMSE 0.9325
+epoch   10 batch  991 Test RMSE 0.9337
+epoch   11 batch  991 Test RMSE 0.9347
+epoch   12 batch  991 Test RMSE 0.9364
+epoch   13 batch  991 Test RMSE 0.9379
+epoch   14 batch  991 Test RMSE 0.9394
+epoch   15 batch  991 Test RMSE 0.9408
+epoch   16 batch  991 Test RMSE 0.9421
+epoch   17 batch  991 Test RMSE 0.9437
+
+time elapsed=8307seconds for 30 epochs
+epoch   18 batch  991 Test RMSE 0.9452
+epoch   19 batch  991 Test RMSE 0.9465
+epoch   20 batch  991 Test RMSE 0.9480
+epoch   21 batch  991 Test RMSE 0.9494
+epoch   22 batch  991 Test RMSE 0.9506
+epoch   23 batch  991 Test RMSE 0.9516
+epoch   24 batch  991 Test RMSE 0.9532
+epoch   25 batch  991 Test RMSE 0.9541
+epoch   26 batch  991 Test RMSE 0.9553
+epoch   27 batch  991 Test RMSE 0.9568
+epoch   28 batch  991 Test RMSE 0.9578
+epoch   29 batch  991 Test RMSE 0.9587
+epoch   30 batch  991 Test RMSE 0.9597

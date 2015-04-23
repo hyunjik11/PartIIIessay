@@ -1,8 +1,32 @@
-epoch    1 batch  991 Average Test RMSE 1.0398
-epoch    2 batch  991 Average Test RMSE 0.9780
-epoch    3 batch  991 Average Test RMSE 0.9581
-epoch    4 batch  991 Average Test RMSE 0.9497
-epoch    5 batch  991 Average Test RMSE 0.9462
-epoch    6 batch  991 Average Test RMSE 0.9460
-Elapsed time is 3086.385788 seconds.
+epoch    1 batch  991 Average Test RMSE 1.0394
+epoch    2 batch  991 Average Test RMSE 0.9778
+epoch    3 batch  991 Average Test RMSE 0.9583
+epoch    4 batch  991 Average Test RMSE 0.9503
+epoch    5 batch  991 Average Test RMSE 0.9469
+epoch    6 batch  991 Average Test RMSE 0.9461
+epoch    7 batch  991 Average Test RMSE 0.9469
+epoch    8 batch  991 Average Test RMSE 0.9487
+epoch    9 batch  991 Average Test RMSE 0.9509
+epoch   10 batch  991 Average Test RMSE 0.9536
+epoch   11 batch  991 Average Test RMSE 0.9560
+epoch   12 batch  991 Average Test RMSE 0.9587
+epoch   13 batch  991 Average Test RMSE 0.9609
+epoch   14 batch  991 Average Test RMSE 0.9639
+epoch   15 batch  991 Average Test RMSE 0.9653
+epoch   16 batch  991 Average Test RMSE 0.9677
+epoch   17 batch  991 Average Test RMSE 0.9699
+epoch   18 batch  991 Average Test RMSE 0.9724
+epoch   19 batch  991 Average Test RMSE 0.9738
+epoch   20 batch  991 Average Test RMSE 0.9759
+epoch   21 batch  991 Average Test RMSE 0.9783
+epoch   22 batch  991 Average Test RMSE 0.9798
+epoch   23 batch  991 Average Test RMSE 0.9813
+epoch   24 batch  991 Average Test RMSE 0.9832
+epoch   25 batch  991 Average Test RMSE 0.9844
+epoch   26 batch  991 Average Test RMSE 0.9859
+epoch   27 batch  991 Average Test RMSE 0.9878
+epoch   28 batch  991 Average Test RMSE 0.9893
+epoch   29 batch  991 Average Test RMSE 0.9901
+epoch   30 batch  991 Average Test RMSE 0.9919
+Elapsed time is 15406.021792 seconds.
 

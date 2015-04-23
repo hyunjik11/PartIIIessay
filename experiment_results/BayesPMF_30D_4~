@@ -1,3 +1,6 @@
+>>bayespmf(trainM,probeM,R,20,M,N,30,4,w1_P1,w1_M1);
+Epoch 1          Average Test RMSE 0.9275
+user  =480189    Gibbs sampling 4
 Epoch 2          Average Test RMSE 0.9227
 user  =480189    Gibbs sampling 4
 Epoch 3          Average Test RMSE 0.9196

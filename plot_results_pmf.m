@@ -1,0 +1,23 @@
+load results_pmf
+figure;
+subplot(1,2,1);
+hold on;
+plot(pmf30,'ro-');
+plot(rawpmf30,'kx-');
+plot(pmf2_30, 'b*-');
+legend('PMF','RawPMF','PMF2');
+xlabel('Epochs');
+ylabel('RMSE');
+axis([0 31 0.92 1.32]);
+set(gca,'YTick', 0.90:0.05:1.35);
+hold off;
+subplot(1,2,2);
+hold on;
+plot(pmf60,'ro-');
+plot(rawpmf60,'kx-');
+legend('PMF','RawPMF');
+xlabel('Epochs');
+ylabel('RMSE');
+axis([0 31 0.92 1.32]);
+set(gca,'YTick', 0.90:0.05:1.35);
+hold off;

@@ -1,6 +1,6 @@
-function [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m]=rawbayespmf(train_vec,probe_vec, R, ...
-    maxepoch,num_m,num_p,num_feat,n_samples,w1_P1,w1_M1,mu_u,mu_m,alpha_u,alpha_m)
-%use trainM for train_vec
+function [w1_P1_sample,w1_M1_sample,overall_err,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob]=rawbayespmf(train_vec,probe_vec, R, ...
+    maxepoch,num_feat,n_samples,w1_P1,w1_M1,mu_u,mu_m,alpha_u,alpha_m,probe_rat_all,counter_prob)
+%use trainM for train_vec, probeU for probe_vec
 %use w1_P1,w1_M1 from pmf (not pmf2)
 rand('state',0);
 randn('state',0);
@@ -8,6 +8,9 @@ randn('state',0);
   epoch=1; 
 
   iter=0; 
+  
+  num_m=17770; 
+  num_p=480189;
 
   % Initialize hierarchical priors 
   beta=2; % observation noise (precision) (=alpha in paper)
@@ -54,8 +57,12 @@ randn('state',0);
   %% Do simple fit
 
   R=R';
-  probe_rat_all = pred(w1_M1_sample,w1_P1_sample,probe_vec,0);
-  counter_prob=1; 
+  if ~exist('probe_rat_all','var')
+    probe_rat_all = pred(w1_M1_sample,w1_P1_sample,probe_vec,0);
+  end
+  if ~exist('counter_prob','var')
+      counter_prob=1;
+  end
 
 for epoch = epoch:maxepoch
 
