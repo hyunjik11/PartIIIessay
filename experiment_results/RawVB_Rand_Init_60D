@@ -7,5 +7,26 @@ Epoch 6          Average Test RMSE 0.9163
 Epoch 7          Average Test RMSE 0.9142
 Epoch 8          Average Test RMSE 0.9134
 Epoch 9          Average Test RMSE 0.9132
-Elapsed time is 94943.734109 seconds.
+Epoch 10         Average Test RMSE 0.9132
+Epoch 11         Average Test RMSE 0.9133
+Epoch 12         Average Test RMSE 0.9135
+Epoch 13         Average Test RMSE 0.9135
+Epoch 14         Average Test RMSE 0.9136
+Epoch 15         Average Test RMSE 0.9136
+Epoch 16         Average Test RMSE 0.9136
+Epoch 17         Average Test RMSE 0.9136
+Epoch 18         Average Test RMSE 0.9136
+Epoch 19         Average Test RMSE 0.9136
+Epoch 20         Average Test RMSE 0.9135
+Epoch 21         Average Test RMSE 0.9135
+Epoch 22         Average Test RMSE 0.9135
+Epoch 23         Average Test RMSE 0.9134
+Epoch 24         Average Test RMSE 0.9134
+Epoch 25         Average Test RMSE 0.9134
+Epoch 26         Average Test RMSE 0.9133
+Epoch 27         Average Test RMSE 0.9133
+Epoch 28         Average Test RMSE 0.9132
+Epoch 29         Average Test RMSE 0.9132
+Epoch 30         Average Test RMSE 0.9132
+Elapsed time is 360969.342153 seconds.
 

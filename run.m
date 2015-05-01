@@ -1,6 +1,6 @@
 %%%%%%%%%% REMEMBER TO SAVE!!!!%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if 1==1 %pentopia
+if 1==0 %pentopia
     load all_data
     tic
     [w1_P1,w1_M1,w1_P1_inc,w1_M1_inc,err_valid]=pmf(trainU,probeU,50,0.01,0.001,0.9, ...
@@ -21,7 +21,7 @@ load all_data
 tic
 [U,V,Psi,sigma,tau,overall_err]=rawvb(trainU,probeU,30,60);
 toc
-%save /alt/applic/user-maint/hjk42/rawvb60errors err_valid
+%save /alt/applic/user-maint/hjk42/rawvb60errors overall_err
 end
 
 if 1==0 %cave
