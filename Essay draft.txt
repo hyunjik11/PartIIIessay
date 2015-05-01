@@ -258,12 +258,23 @@ Note that the time complexity for each epoch of the algorithm is $O(K+ND^3+MD^3)
 5.EXPERIMENTAL RESULTS
 
 Information about actual competition with original test set. Distinguish from probe set.
+Facts and figures about netflix data set
 
 BayesPMF as function of n_samples: 4,8,16,32 for each of 30D and 60D
 
 Infrequent users: plot using a graph - x-axis: number of observed ratings (1-5,6-10, -20, -40, -80,-160, -320 -640 >641) for 60D values as in figure 4 right panel of BayesPMF
 
+
+30D: Netflix baseline score - Cinematch,PMF, rawPMF, BayesPMF, VB Random INIT, rawBayesPMF_VBinit
+60D: Same (vb predicting UV-mean does not do well, so we omit)
+(Display as two graphs, up to 30epochs on x-axis)
+Table for best RMSE after 30epochs with graph
+
+Table for running times. Time & factor compared to pmf30.
+
+
 FOR RESULTS on PMF:
+-graph for pmf,rawpmf,pmf2 for 30D and pmf,rawpmf for 60D.
 -mention overfitting for pmf. metion that higher dimensions give worse predictions.
 -comment on use of sigmoid function and explain why it does not give better results.
 ---sigma must be small to guarantee that the ratings fall in [0,1] with high probability. However, with small sigma, the problem is that the extreme ratings 1,5 become very difficult to predict, as this will require a very large UiVj' with a small variance.
@@ -274,22 +285,23 @@ For RESULTS on BayesPMF:
 -mention results could be improved if one includes a burn-in period. Paper uses burn in of 800. Of course then the algorithm will be computationally very expensive.
 
 For RESULTS on VB:
--VB random init does much better than stated in the paper. For 30D in paper: around 0.9190. In experiment: 0.9132.
+-VB random init does much better than stated in the paper. For 30D in paper: around 0.9190. In experiment: 0.9136.
 -VB tends to perform better for higher D (higher model complexity, but not as much as for BayesPMF), but does overfit very quickly for D=60.
--mention VB applied to PMF or BayesPMF initialised values of U,V not successful. Relate to how entries of U and V for PMF/BayesPMF are small, unlike for VB. Maybe this is why. Also with VB the RMSE does not start off from the RMSE of the initial U,V. This might be another explanation.
 -also VB does much worse when we try to have U,V predict R_ij-mean(R). For random init 30D, the RMSE goes down to 0.9878 at epoch 9 and stays near it.
+
+
+
+-mention VB applied to PMF or BayesPMF initialised values of U,V not successful. Relate to how entries of U and V for PMF/BayesPMF are small, unlike for VB. Maybe this is why. Also with VB the RMSE doFes not start off from the RMSE of the initial U,V. This might be another explanation.
+
 
 
 So VB and PMF/BayesPMF have different preferences. But it seems as though VB initialised BayesPMF does okay. Perhaps we could do better if somehow we can transfer U,V for predicting R to U',V' predicting R-mean(R)? But this is not possible in general.
 
-30D: Netflix baseline score - Cinematch,PMF, rawPMF, BayesPMF, rawBayesPMF, VB Random INIT, rawBayesPMF_VBinit
-60D: Same
-(Display as two graphs, up to 30epochs on x-axis)
 
 6.FURTHER APPROACHES
 -VB inference for the Hierarcial Bayesian model in BayesPMF.
--
-
+-Matrix Factorization using Gaussian Processes (successfully applied to MovieLens data with 10M ratings)
+-Variable variance models:
 Seems as though the variance of R_{ij} will be important for creating recommender systems, as people have limited time and cannot watch many movies. So want to recommend movies with not only a high expected rating but also a small variance, so that the user will be satisfied with high prob. 
 We could measure this variance by Var_{U,V|R}(U_iV_j^T) or by Var(R|U,V). Note that for the above approaches, p(U,V|R) is intractable, and so is Var_{U,V|R}(U_iV_j^T). However for VB, we estimate the posterior by Q(U)Q(V), for which we know the variances (Phi and Psi), hence we know the variance of U_iV_j^T under the independence assumptions. So one could say that VB inference provides us with more information concerning posterior variances than with PMF or BayesPMF.
 However it seems more intuitive to use Var(R|U,V) as the measure of variance we are interested in. Hence we may want to model the conditional distribution of R given U,V as:
